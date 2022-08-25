@@ -13,6 +13,7 @@ namespace GetLoginKey_WebClient
         {
             string userID = Request.QueryString["userID"]; //아이디와 비번을 파라미터로
             string userPWD = Request.QueryString["userPWD"];
+            string PartnerShip = Request.QueryString["partner"];
 
             if (string.IsNullOrEmpty(userID) || string.IsNullOrEmpty(userPWD))
             {
@@ -20,7 +21,20 @@ namespace GetLoginKey_WebClient
                 return;
             }
 
-            string result = SeleniumHelper.GetLoginKey_MGame(userID, userPWD);
+            string result = "";
+
+            if (PartnerShip == "valofe")
+            {
+                result = SeleniumHelper.GetLoginKey_Valofe(userID, userPWD);
+            }
+            else if (PartnerShip == "mgame")
+            {
+                result = SeleniumHelper.GetLoginKey_MGame(userID, userPWD);
+            }
+            else
+            {
+                result = SeleniumHelper.GetLoginKey_Valofe(userID, userPWD);
+            }
 
             Response.Write(result); //웹 끝
         }
